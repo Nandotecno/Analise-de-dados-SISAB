@@ -1,0 +1,42 @@
+import pandas as pd
+import plotly.graph_objects as go
+
+# Dados
+data = {
+    'Municipio': ['PRAIA GRANDE', 'SANTOS', 'SÃO VICENTE'],
+    '2022 Q1': [685 / 1157 * 100, 286 / 621 * 100, 306 / 791 * 100],
+    '2022 Q2': [685 / 1157 * 100, 286 / 621 * 100, 306 / 791 * 100],
+    '2022 Q3': [685 / 1157 * 100, 286 / 621 * 100, 306 / 791 * 100],
+    '2023 Q1': [685 / 1157 * 100, 286 / 621 * 100, 306 / 791 * 100],
+    '2023 Q2': [685 / 1157 * 100, 286 / 621 * 100, 306 / 791 * 100],
+    '2023 Q3': [685 / 1157 * 100, 286 / 621 * 100, 306 / 791 * 100],
+    '2024 Q1': [685 / 1157 * 100, 286 / 621 * 100, 306 / 791 * 100],
+    '2024 Q2': [59, 46, 39]  # dados fornecidos diretamente
+}
+
+# Criar DataFrame
+df = pd.DataFrame(data)
+
+# Criar gráfico
+fig = go.Figure()
+
+# Adicionar traços para cada município
+for municipio in df['Municipio']:
+    fig.add_trace(go.Scatter(
+        x=df.columns[1:],  # Trimestres
+        y=df.loc[df['Municipio'] == municipio].values[0][1:],  # Valores correspondentes
+        mode='lines+markers',
+        name=municipio
+    ))
+
+# Configurações do gráfico
+fig.update_layout(
+    title='Proporção de Gestantes com Atendimento Odontológico Realizado',
+    xaxis_title='Trimestres',
+    yaxis_title='Proporção (%)',
+    yaxis=dict(range=[0, 100]),
+    template='plotly_white'
+)
+
+# Mostrar gráfico
+fig.show()
